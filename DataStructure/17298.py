@@ -1,13 +1,12 @@
+import sys
+input = sys.stdin.readline
 n = int(input())
-a = list(map(int,input().split()))
-ans = [0]*n
-s = [0]
-for i in range(1, n):
-    if not s:
-        s.append(i)
-    while s and a[s[-1]] < a[i]:
-        ans[s.pop()] = a[i]
-    s.append(i)
-while s:
-    ans[s.pop()] = -1
+a = list(map(int, input().split()))
+s = []
+ans = [-1 for _ in range(n)]
+
+for i in range(n) :
+  while s and a[i] > a[s[-1]] :
+    ans[s.pop()] = a[i]    
+  s.append(i)
 print(' '.join(map(str,ans)))

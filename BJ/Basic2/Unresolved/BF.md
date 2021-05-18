@@ -1,3 +1,5 @@
+## 브루트포스 - 재귀
+
 [1248](https://www.acmicpc.net/problem/1248)
 
 ---

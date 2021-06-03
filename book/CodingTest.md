@@ -95,3 +95,30 @@ def bfs(graph, start, visited):
 ```
 
 ---
+
+# 5. 정렬
+
+```python
+n = int(input()
+a = []
+for i in range(n):
+  input_data = input().split()
+  a.append((input_data[0], int(input_data[1])))
+
+a = sorted(a, key=lambda student: student[1])
+
+for student in array:
+  print(student[0], end=' ')
+
+```
+
+### * key=lambda
+
+```python
+c = sorted(a, key = lambda x : x[0])
+# c = [(0, 1), (1, 2), (3, 0), (5, 1), (5, 2)]
+d = sorted(a, key = lambda x : x[1])
+# d = [(3, 0), (0, 1), (5, 1), (1, 2), (5, 2)]
+```
+
+---

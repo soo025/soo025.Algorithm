@@ -40,9 +40,9 @@ move_type = ['L', 'R', 'U', 'D']
 # 이동계획 하나씩
 for plan in plans:
   for i in range(4):
-  if plan == move_type[i]:
-    nx = x + dx[i] 
-    ny = y + dy[i]
+    if plan == move_type[i]:
+      nx = x + dx[i] 
+      ny = y + dy[i]
 
   # 지도를 벗어나는 경우
   if nx < 1 or ny <1 or nx > n or ny > n:
@@ -59,6 +59,9 @@ print(x, y)
 : `스택`, `재귀함수` 사용
 
 ```python
+# graph는 2차원 연결 리스트로 표현
+# visited는 방문된 정보를 1차원 리스트로 표현
+# visited = [False] * 9
 def dfs(graph, v, visited):
   # 현재 노드 방문 처리
   vistited[v] = True
@@ -99,7 +102,7 @@ def bfs(graph, start, visited):
 # 5. 정렬
 
 ```python
-n = int(input()
+n = int(input())
 a = []
 for i in range(n):
   input_data = input().split()
@@ -107,9 +110,8 @@ for i in range(n):
 
 a = sorted(a, key=lambda student: student[1])
 
-for student in array:
+for student in a:
   print(student[0], end=' ')
-
 ```
 
 ### * key=lambda

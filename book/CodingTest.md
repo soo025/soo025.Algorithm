@@ -124,3 +124,102 @@ d = sorted(a, key = lambda x : x[1])
 ```
 
 ---
+
+# 6. 이진탐색
+
+: `파라메트릭 서치`(최적화 -> `결정문제`)
+
+> 재귀
+
+```python
+def binary_search(a, target, start, end):
+  if start > end:
+    return None
+  mid = (start+end) // 2
+
+  # 찾은 경우
+  if a[mid] == target:
+    return mid
+  elif a[mid] > target:
+    return binary_search(a, target, start, mid-1)
+  else:
+    return binary_search(a, target, mid+1, end)
+
+n, target = map(int, input().split())
+a = list(map(int, input().split()))
+
+result = binary_search(a, target, 0, n-1)
+if result == None:
+  print("찾는 원소가 없습니다")
+else:
+  print(result+1)
+```
+
+> 반복문
+
+```python
+def binary_search(a, target, start, end):
+  while start <= end:
+    mid = (start+end) // 2
+
+    # 찾은 경우
+    if a[mid] == target:
+      return mid
+    elif a[mid] > target:
+      end = mid-1
+    else:
+      start = mid+1
+
+n, target = map(int, input().split())
+a = list(map(int, input().split()))
+
+result = binary_search(a, target, 0, n-1)
+if result == None:
+  print("찾는 원소가 없습니다")
+else:
+  print(result+1)
+```
+
+---
+
+# 7. 다이나믹
+
+> 탑다운(재귀)
+
+```python
+d = [0] * 100
+
+def fibo(x):
+  if x == 1or x == 2:
+    return 1
+  # 계산한 문제라면 그대로 반환
+  if d[x] != 0:
+    return d[x]
+  d[x] = fibo(x-1) + fibo(x-2)
+  return d[x]
+
+print(fibo(99))
+```
+
+
+---
+
+
+> 보텀업(반복문)
+
+```python
+d = [0] * 199
+
+# 첫번째 피보나치 수와 두번 째 피보나치 수
+d[1] = 1
+d[2] = 1
+n = 99
+
+for i in range(3, n+1):
+  d[i] = d[i-1] + d[i-2]
+
+print(d[n])
+```
+
+
+---

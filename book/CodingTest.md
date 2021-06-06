@@ -223,3 +223,91 @@ print(d[n])
 
 
 ---
+
+
+
+# 8. 최단경로 - 다익스트라
+: `인접리스트`, 노드의 개수가 `많은` 경우
+
+: 우선순위 큐(heapq 라이브러리)
+```python
+import heapq
+import sys
+input = sys.stdin.readline
+INF = int(10**9)
+
+n, m = map(int, input().split())
+start = int(input())
+graph = [[] for i in range(n+1)]
+distance = [INF] * (n+1)
+
+# 간선 정보 입력받기
+for _ in range(m):
+  a, b, c = map(int, input().split())
+  graph[a].append((b,c))
+
+def dijkstra(start):
+  q = []
+  # 시작 노드
+  heapq.heappush(q, (0,start))
+  distance[start] = 0
+  
+  while q:
+    # 거리와 노드
+    dist, now = heapq.heappop(q)
+    # 이미 처리된 노드
+    if distance[now] < dist:
+      continue
+    # 현재 노드와 연결된 노드의 거리
+    for i in graph[now]:
+      cost = dist + i[1]
+      # 더 짧은 경우
+      if cost < distance[i[0]]:
+        distance[i[0]] = cost
+        heapq.heappush(q, (cost,i[0]))
+
+dijkstra(start)
+
+for i in range(1, n+1):
+  if distance[i] == INF:
+    print("INFINITY")
+  else:
+    print(distance[i])
+```
+
+# 9. 최단경로 - 플로이드 워셜
+: `인접 행렬`, 노드의 개수가 `적은` 경우
+
+```python
+INF = 10**9
+
+n = int(input())
+m = int(input())
+
+graph = [[INF] * (n+1) for _ in range(n+1)]
+
+# 자신에게 가는 비용, 0으로
+for i in range(1, n+1):
+  for j in range(1, n+1):
+    if i == j:
+      graph[i][j] = 0
+
+# 간선 정보
+for _ in range(m):
+  a, b, c = map(int, input().split())
+  graph[a][b] = c
+
+# 플로이드 워셜 알고리즘
+for i in range(1, n+1):
+  for j in range(1, n+1):
+    for k in range(1, n+1):
+      graph[i][j] = min(graph[i][j], graph[i][k] + graph[k][j])
+
+for i in range(1, n+1):
+  for j in range(1, n+1):
+    if graph[i][j] == INF:
+      print("INFINITY", end= " ")
+    else:
+      print(graph[i][j], end=" ")
+  print()
+```

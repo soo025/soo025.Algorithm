@@ -311,3 +311,155 @@ for i in range(1, n+1):
       print(graph[i][j], end=" ")
   print()
 ```
+
+---
+
+# 10. 서로소 집합(유니온 파인드)
+
+```python
+# 루트 노드 찾기
+def find_parent(parent, x):
+  # 루트 노드 찾을 때까지 재귀적 호출
+  if parent[x] != x:
+    parent[x] = find_parent(parent, parent[x])
+  # 루트 노드라면 경로압축으로 부모 테이블값 갱신
+  return parent[x]
+
+# 두 원소가 속한 집합 합치기
+def union_parent(parent, a, b):
+  a = find_parent(parent, a)
+  b = find_parent(parent, b)
+  # 작은 쪽이 루트 노드
+  if a < b:
+    parent[b] = a
+  else:
+    parent[a] = b
+
+# 노드의 개수와 개수
+v, e = map(int, input().split())
+
+# 부모 테이블 자기 자신으로 초기화
+parent = [0]*(v+1)
+for i in range(1, v+1):
+  parent[i] = i
+
+# union 연산
+for i in range(e):
+  a, b = map(int, input().split())
+  union_parent(parent, a, b)
+
+
+# 각 원소가 속한 집합
+print('각 원소가 속한 집합: ', end='')
+for i in range(1, v+1):
+  print(find_parent(parent, i), end=' ')
+print()
+# 부모 테이블
+print('부모 테이블: ', end='')
+for i in range(1, v+1):
+  print(parent[i],end=' ')
+```
+
+
+---
+
+
+# 11. 크루스칼
+: 사이클이 없는 최소 스패닝 트리
+
+```python
+# 루트 노드 찾기
+def find_parent(parent, x):
+  # 루트 노드 찾을 때까지 재귀적 호출
+  if parent[x] != x:
+    parent[x] = find_parent(parent, parent[x])
+  # 루트 노드라면 경로압축으로 부모 테이블값 갱신
+  return parent[x]
+
+# 두 원소가 속한 집합 합치기
+def union_parent(parent, a, b):
+  a = find_parent(parent, a)
+  b = find_parent(parent, b)
+  # 작은 쪽이 루트 노드
+  if a < b:
+    parent[b] = a
+  else:
+    parent[a] = b
+
+# 노드의 개수와 개수
+v, e = map(int, input().split())
+
+# 부모 테이블 자기 자신으로 초기화
+parent = [0]*(v+1)
+for i in range(1, v+1):
+  parent[i] = i
+
+# 모든 간선을 담을 리스트와 최종 비용을 담을 변수
+edges = []
+result = 0
+
+# 간선 입력
+for _ in range(e):
+  a, b, cost = map(int, input().split())
+  # 튜플의 첫번째 원소가 정렬 기준이므로 cost를 처음으로 추가
+  edges.append((cost, a, b))
+edges.sort()
+
+# 간선 확인
+for edge in edges:
+  cost, a, b = edge
+  # 사이클이 발생하지 않는다면 집합 포함
+  if find_parent(parent, a) != find_parent(parent, b):
+    union_parent(parent, a, b)
+    result += cost
+print(result)
+```
+
+---
+
+
+# 12. 위상정렬
+: 방향그래프의 모든 노드를 `순서대로` 나열
+
+```python
+from collections import deque
+
+# 노드 개수와 간선
+v, e = map(int, input().split())
+# 노드의 진입 차수 초기화
+indegree = [0] * (v+1)
+graph = [[] for i in range(v+1)]
+
+# 방향 그래프의 간선 입력, 진입 차수 추가
+for _ in range(e):
+  a, b = map(int, input().split())
+  graph[a].append(b)
+  indegree[b] += 1
+
+# 위상정렬
+def topology_sort():
+  result = []
+  q = deque()
+  # 1. 진입 차수 0인 노드 큐에 삽입
+  for i in range(1, v+1):
+    if indegree[i] == 0:
+      q.append(i)
+
+  # 2. 큐가 빌 때까지 반복
+  while q:
+    # 2-1. 큐에서 원소 빼고 result에 넣기
+    now = q.popleft()
+    result.append(now)
+    # 2-2. 뺀 원소의 진입차수 1 빼기
+    for i in graph[now]:
+      indegree[i] -= 1
+      # 2-3. 진입차수가 0이라면 큐에 삽입
+      if indegree[i] == 0:
+        q.append(i)
+        
+  for i in result:
+    print(i, end=' ')
+
+topology_sort()
+```
+

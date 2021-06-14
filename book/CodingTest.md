@@ -182,7 +182,7 @@ else:
 
 > bisect 라이브러리
 
-```
+```python
 from bisect import bisect_left, bisect_right
 
 def count_by_range(array, left_value, right_value):
